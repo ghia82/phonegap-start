@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<link rel="stylesheet" href="prova.css"/>
+	<script src="script.js"></script>
+	
+</head>
+<body>
+
+<!-- Start of index -->
+<div data-role="page" id="index">
+
+	<div data-role="header">
+		<h1>Page 1</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" align="center">
+        <div style="width: 288px; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8; margin-top: 30px;">
+            <img src="" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px;">
+        </div>
+        <a data-role="button" href="#page1" style="margin-top: 50px" data-inline="true">
+            Entra
+        </a>
+		
+ </div> <!-- /content -->
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        <h4>
+            Footer
+        </h4>
+    </div>
+
+
+
+	<!-- /footer -->
+</div><!-- /index -->
+
+<!--page 1-->
+<div data-role="page" id="page1">
+
+	<div data-role="header">
+		<h1>Page 1</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+   
+ <script>
+var xml;
+    $(document).ready(function(){
+        $.ajax({
+            type: "GET",
+            url: "cna.xml",
+            dataType: "xml",
+            success: xmlParser
+        });
+    });
+function xmlParser(data) {
+	xml = data;
+	//$('#load').fadeOut();
+
+    $(xml).find("item").each(function () {
+        name = $(this).attr("name");
+        var email = $(this).find("EmailSede").text();
+        var resp = $(this).find("Responsabile").text();
+        var address = $(this).find("Indirizzo").text();
+        var fax = $(this).find("Fax").text();
+        var phone = $(this).find("Telefono").text();
+        var photo = $(this).find("FotoSede").text();
+        var link = $(this).find("link").text();
+
+        $("#citta").append('<li><h3 id="name">' + name + 
+       // '</h3><ul><li>Email: <a href="mailto:'+ email + '</a>'+
+        '</h3><ul><li>Email: ' + email + 
+        '</li><li>Responsabile: '+ resp + 
+        '</li><li>Indirizzo: '+ address + 
+        '</li><li>Fax: '+ fax + 
+        '</li><li>Telefono: '+ phone + 
+        '</li><li><img src=http://www.mo.cna.it/'+ photo + '>'+ 
+        '<button data-inline="true"">Vai al sito del comune ' + '<a href="'+ link + '"</a></button></li></ul></li>');
+     });
+}
+</script>
+    
+			<h3>Citt&agrave;</h3>
+		<ul id="citta" data-role="listview" data-theme="d" data-inset="true" data-filter="true" data-folter-placeholder="filtra...">
+			<li id="output"></li> 
+		</ul>
+	
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h3>Footer</h3>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+
+
+<!--page 2-->
+<div data-role="page" id="page2">
+
+	<div data-role="header">
+		<h1>Page 2</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+
+	<div id="output1"></div>
+	<br />
+	<div id="output2"></div>
+
+<script src="show()"></script>
+
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h3>Footer</h3>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+</body>
+</html>

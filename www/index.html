@@ -21,22 +21,157 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+            <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+            <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+
+        <title>My News</title>
     </head>
     <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+
+        <!-- Start of index -->
+        <div data-role="page" id="index">
+
+            <div data-role="header">
+                <h1>My News</h1>
+            </div><!-- /header -->
+
+            <div data-role="content" align="center">
+                <div style="width: 288px; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8; margin-top: 30px;">
+                    <img src="" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px;">
+                        </div>
+                <a data-role="button" href="#page1" style="margin-top: 50px" data-inline="true">Entra</a>
+                <br/>
+             <!--   <a data-role="button" href="#login" style="margin-top: 50px" data-inline="true">Login</a> -->
+
+<!--             <a data-role="button" href="login.html" style="margin-top: 50px" data-inline="true" data-rel="dialog">Login</a> <!--no footer-->
+             <a data-role="button" href="login.html" style="margin-top: 50px" data-inline="true">Login</a>
+            </div> <!-- /content -->
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <h4>Footer</h4>
             </div>
-        </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+            <!-- /footer -->
+        </div><!-- /index -->
+
+        <!-- login -->
+        <div data-role="page" id="login">
+            <div data-role="header">
+            	<a href="#" data-icon="back" data-rel="back" title="Go back">Back</a>
+                <h1>login</h1>
+            </div>
+                <div data-role="content" align="center">
+
+
+                </div> <!-- /content -->
+             <div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="news.html">News</a></li>
+						<li><a href="eventi.html">Eventi</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+					</ul>
+				</div><!-- /navbar -->
+            </div><!-- /footer -->
+        </div><!-- /login -->
+
+        <!--page 1-->
+        <div data-role="page" id="page1">
+            <div data-role="header">
+            	 <a href="index.html" data-icon="back" data-rel="back" title="Go back">Back</a>
+                <h1>Page 1</h1>
+            </div><!-- /header -->
+
+            <div data-role="content">
+
+                <script>
+                  var xml;
+                  $(document).ready(function(){
+                          $.ajax({
+                                 type: "GET",
+                                 url: "cna.xml",
+                                 dataType: "xml",
+                                 success: xmlParser
+                          });
+                  });
+                  function xmlParser(data) {
+                      xml = data;
+                      $(xml).find("item").each(function () {
+                      	name = $(this).attr("name");
+                      	var titolo = $(this).find("title").text();
+	                  	var photo = $(this).find("FotoSede").text();
+	                  	var desc = $(this).find("Indirizzo").text();
+	                  	var desc_l = $(this).find("description").text();
+	                  	var link = $(this).find("link").text();
+
+	                   //cosa visualizzo nell'elenco
+	                  	$("#news").append('<li><h2 id="name"><img src=http://www.mo.cna.it/' + photo +
+	                  	' width="150" height="100" alt="img" style="float:left;margin-right:30px;border: 1px solid #000;">'+
+	                       name + '</h2>' +
+
+	                      //cosa visualizzo dopo il click
+	                      '<ul>'+'<table><tr><td width="15%"><img src=http://www.mo.cna.it/'+ photo +
+	                      ' width="200" height="150" alt="img" align="left" style="float:left;margin:5px; border: 1px solid #000;">' +
+	                      '</td><td><b>Titolo: </b>' + titolo + '<br>' +
+	                      '<br><b>Descrizione breve: </b>' + desc + '</td></tr></table>' +
+	                      '<hr><b>Descrizione estesa: '+ desc_l +
+	                      '<br><button data-inline="true">Link Web' + '<a href="'+ link + '"</a></button></ul></li>');
+                      });
+                  }
+                </script>
+
+               <h3>Cerca...</h3>
+                <ul id="news" data-role="listview" data-theme="d" data-inset="true" data-filter="true" data-folter-placeholder="cerca...">
+                </ul>
+
+            </div><!-- /content -->
+
+            <div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="news.html">News</a></li>
+						<li><a href="eventi.html">Eventi</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+					</ul>
+				</div><!-- /navbar -->
+            </div><!-- /footer -->
+        </div><!-- /page 1-->
+
+
+
+        <!--page 2-->
+        <div data-role="page" id="page2">
+
+            <div data-role="header">
+                <a href="#" data-icon="back" data-rel="back" title="Go back">Back</a>
+                <h1>Page 2</h1>
+            </div><!-- /header -->
+
+            <div data-role="content">
+     <!--
+                <div id="output1"></div>
+                <br />
+                <div id="output2"></div>
+
+                <script src="show()"></script>
+         -->
+            </div><!-- /content -->
+
+ <div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="news.html">News</a></li>
+						<li><a href="eventi.html">Eventi</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+						<li><a href="" class="ui-disabled">?</a></li>
+					</ul>
+				</div><!-- /navbar -->
+            </div><!-- /footer -->
+        </div><!-- /page 2 -->
+
+</body>
 </html>
